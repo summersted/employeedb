@@ -1,22 +1,22 @@
 import ListItem from "../list-item"
-
+import { TableElement,ThElement } from "./list-styles"
 export default function List({ list }) {
     return (
-        <table>
+        <TableElement>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Employee</th>
-                    <th>Department</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <ThElement width='20px'>#</ThElement>
+                    <ThElement>Employee</ThElement>
+                    <ThElement>Department</ThElement>
+                    <ThElement width='60px'>Edit</ThElement>
+                    <ThElement width='100px'>Delete</ThElement>
                 </tr>
             </thead>
             <tbody>
                 {list ? (
                     list.map((item, i) => {
                         return (
-                            <ListItem listItem={item} key={i} id={i}/>
+                            <ListItem listItem={item} id={i} key={i} />
                         )
                     })
                 ) : (
@@ -24,6 +24,6 @@ export default function List({ list }) {
                     <p>Loading...</p>
                 )}
             </tbody>
-        </table>
+        </TableElement>
     )
 }
