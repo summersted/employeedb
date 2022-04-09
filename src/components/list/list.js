@@ -1,4 +1,4 @@
-import ListItem from "../list-item/list-item"
+import ListItem from "../list-item"
 
 export default function List({ list }) {
     return (
@@ -12,16 +12,18 @@ export default function List({ list }) {
                     <th>Delete</th>
                 </tr>
             </thead>
-            {list ? (
-                list.map((item, i) => {
-                    return (
-                        <ListItem listItem={item} id={i} />
-                    )
-                })
-            ) : (
-                // here should be loader component
-                <p>Loading...</p>
-            )}
+            <tbody>
+                {list ? (
+                    list.map((item, i) => {
+                        return (
+                            <ListItem listItem={item} key={i} id={i}/>
+                        )
+                    })
+                ) : (
+                    // here should be loader component
+                    <p>Loading...</p>
+                )}
+            </tbody>
         </table>
     )
 }

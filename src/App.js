@@ -1,8 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Homepage from './pages/home-page/home-page';
+import AddEmployee from './pages/add-employee';
+import Homepage from './pages/home-page';
+import PageNotFound from './pages/page-not-found';
+
 function App() {
   return (
-    <Homepage/>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Homepage />} />
+        <Route path='/add' element={<AddEmployee />} />
+        <Route path='/edit' element={<AddEmployee />} />
+        <Route path='*' element={<PageNotFound/>} />
+      </Routes>
+    </BrowserRouter>
+
   );
 }
 
