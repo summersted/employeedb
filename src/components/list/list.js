@@ -1,6 +1,6 @@
-import ListItem from "../list-item"
-import { TableElement,ThElement } from "./list-styles"
-export default function List({ list }) {
+import ListItem from "../list-item";
+import { TableElement, ThElement } from "./list-styles";
+export default function List({ list, currentPage }) {
     return (
         <TableElement>
             <thead>
@@ -15,8 +15,12 @@ export default function List({ list }) {
             <tbody>
                 {list ? (
                     list.map((item, i) => {
+                        const id = (currentPage*5)-4+i;
                         return (
-                            <ListItem listItem={item} id={i} key={i} />
+                            <ListItem 
+                            listItem={item}
+                             id={id} 
+                             key={id} />
                         )
                     })
                 ) : (

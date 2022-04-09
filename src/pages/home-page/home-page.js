@@ -5,13 +5,24 @@ import List from "../../components/list";
 
 import { SearchPanel } from "./home-page-styles";
 import Button from "../../components/button";
+import Pagination from "../../components/pagination/pagination";
+import { useState } from "react";
 
 export default function Homepage() {
+    const [currentPage, setCurrentPage] = useState(1);
+
     const buttonOptions = {
         text: 'Add',
         background_color: '#008cff',
         element_width: '100px'
     }
+    const setActivePage = (namberOfPage) => setCurrentPage(namberOfPage);
+
+    const pages = Math.ceil(employeesList.length / 5);
+
+    const indexOfLastEmployee = currentPage * 5;
+    const indexOfFirstEmployee = indexOfLastEmployee - 5;
+    const employeesPage = employeesList.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
     return (
         <>
@@ -20,7 +31,11 @@ export default function Homepage() {
                 <DropdownInput width='170px' />
                 <Button buttonOptions={buttonOptions} />
             </SearchPanel>
-            <List list={employeesList} />
+            <List list={employeesPage} currentPage={currentPage}/>
+            <Pagination
+                pages={pages}
+                setActivePage={setActivePage}
+            />
         </>
     )
 }

@@ -4,7 +4,7 @@ export default function ListItem({listItem, id}) {
     
     return(
         <tr key={id}>
-            <TdElement>{id+1}</TdElement>
+            <TdElement>{id}</TdElement>
             <TdElement>{listItem?.name}</TdElement>
             <TdElement>{listItem?.department}</TdElement>
             <TdElement><Link to={`edit/${id}`}>edit</Link></TdElement>
