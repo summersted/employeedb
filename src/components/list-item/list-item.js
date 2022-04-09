@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function ListItem({listItem, id}) {
     
     return(
@@ -5,7 +7,7 @@ export default function ListItem({listItem, id}) {
             <td>{id+1}</td>
             <td>{listItem?.name}</td>
             <td>{listItem?.department}</td>
-            <td ><a onClick={()=> console.log('edit ', id) }>edit</a></td>
+            <td><Link to={`edit/${id}`}>edit</Link></td>
             <td><a onClick={()=> console.log('delete ',id) }>delete</a></td>
         </tr>
     )
