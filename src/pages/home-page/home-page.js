@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import employeesList from "./nameslist";
 import DropdownInput from "../../components/dropdown-input";
 import SearchInput from "../../components/search-input";
@@ -5,7 +7,7 @@ import List from "../../components/list";
 
 import { SearchPanel } from "./home-page-styles";
 import Button from "../../components/button";
-import Pagination from "../../components/pagination/pagination";
+import Pagination from "../../components/pagination";
 import { useState } from "react";
 
 export default function Homepage() {
@@ -29,9 +31,11 @@ export default function Homepage() {
             <SearchPanel>
                 <SearchInput />
                 <DropdownInput width='170px' />
-                <Button buttonOptions={buttonOptions} />
+                <Link to={`add`}>
+                    <Button buttonOptions={buttonOptions} />
+                </Link>
             </SearchPanel>
-            <List list={employeesPage} currentPage={currentPage}/>
+            <List list={employeesPage} currentPage={currentPage} />
             <Pagination
                 pages={pages}
                 setActivePage={setActivePage}

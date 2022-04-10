@@ -1,9 +1,12 @@
 import { DropdownFormElement, DropdawnSelectElement } from "./dropdown-input-styles";
 
-export default function DropdownInput({width}) {
+export default function DropdownInput({ width, handler }) {
     return (
         <DropdownFormElement width={width}>
-            <DropdawnSelectElement name="department">
+            <DropdawnSelectElement 
+            name="department" 
+            width={width}
+            onChange={handler}>
                 <option value="none">Select department</option>
                 <option value="development">Development</option>
                 <option value="management">Management</option>

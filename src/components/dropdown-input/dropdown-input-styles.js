@@ -13,5 +13,5 @@ export const DropdawnSelectElement = styled.select`
     font-size: 16px;
     color: inherit;
     border: 1px solid transparent;
-    border-radius: inherit;
+    width: ${({width}) => width || '170px'};
 `;
