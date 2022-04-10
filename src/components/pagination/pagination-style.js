@@ -10,3 +10,7 @@ export const PaginationItem = styled.li`
     list-style-type: none;
     padding: 3px;
 `;
+
+export const PaginationPageLink = styled.a`
+    color: ${({active}) => active ? 'red' : 'blue'};
+`;

@@ -35,6 +35,7 @@ export default function Homepage() {
             <Pagination
                 pages={pages}
                 setActivePage={setActivePage}
+                currentPage={currentPage}
             />
         </>
     )
