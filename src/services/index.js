@@ -58,3 +58,16 @@ export const removeEmployee = async (id) => {
         console.warn(error)
     }
 }
+
+export const filterEmployees = async (querry) => {
+    try {
+        const res = await fetch(`/api/filterEmployees`, {
+            method: 'POST',
+            body: JSON.stringify(querry)
+        })
+            .then(data => data.json());
+        return res;
+    } catch (error) {
+        console.warn(error)
+    }
+}

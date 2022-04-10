@@ -8,45 +8,63 @@ import { SearchPanel } from "./home-page-styles";
 import Button from "../../components/button";
 import Pagination from "../../components/pagination";
 import { useEffect, useState } from "react";
-import { getEmployees } from "../../services";
+import { filterEmployees, getEmployees } from "../../services";
 
 export default function Homepage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [employeesData, setEmployeesData] = useState([]);
-    const [needReload, setNeedReload] = useState([false])
+    const [needReload, setNeedReload] = useState([false]);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchDepartment, setSearchDepartment] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        getEmployees().then(({ employees }) => {
-            setEmployeesData(employees);
-        });
+        getEmployees().then(({ employees }) =>
+            setEmployeesData(employees));
     }, [needReload]);
 
     useEffect(() => {
         setNeedReload(false);
-    }, [needReload])
+    }, [needReload]);
+
+    useEffect(() => {
+        filterEmployees(searchQuery).then(({ employees }) =>
+            setEmployeesData(employees));
+    }, [searchQuery]);
+
+    useEffect(()=> {
+        console.log(searchDepartment);
+        setEmployeesData(employeesData.filter((row) => (row.department === searchDepartment)))
+    }, [searchDepartment]);
 
     const buttonOptions = {
         text: 'Add',
         background_color: '#008cff',
         element_width: '100px'
-    }
+    };
+
     const setActivePage = (namberOfPage) => setCurrentPage(namberOfPage);
 
     const pages = Math.ceil(employeesData?.length / 5);
-
     const indexOfLastEmployee = currentPage * 5;
     const indexOfFirstEmployee = indexOfLastEmployee - 5;
     const employeesPage = employeesData?.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
     const doReload = () => setNeedReload(true);
+    const searchQuerryHandler = (value) => setSearchQuery(value);
+    const searchDepartmentHandler = (e) => setSearchDepartment(e.target.value);
 
     return (
         <>
             <SearchPanel>
-                <SearchInput />
-                <DropdownInput width='170px' />
-                <Button buttonOptions={buttonOptions} handler={() => navigate('add')} />
+                <SearchInput handler={searchQuerryHandler} />
+                <DropdownInput
+                    width='170px'
+                    handler={searchDepartmentHandler} />
+                <Button
+                    buttonOptions={buttonOptions}
+                    handler={() => navigate('add')} />
             </SearchPanel>
             <List
                 list={employeesPage}

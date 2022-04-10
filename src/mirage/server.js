@@ -29,6 +29,12 @@ createServer({
             let attrs = JSON.parse(request.requestBody);
             return schema.employees.create(attrs);
         });
+        this.post("/api/filterEmployees", (schema, request) => {
+            let attrs = JSON.parse(request.requestBody).toLowerCase();
+
+            return schema.employees.where(
+                (row) => row.name.toLowerCase().search(attrs) !== -1);
+        });
 
         this.patch("/api/employees/:id", (schema, request) => {
             let newAttrs = JSON.parse(request.requestBody);
