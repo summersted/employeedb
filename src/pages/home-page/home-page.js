@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import employeesList from "./nameslist";
 import DropdownInput from "../../components/dropdown-input";
 import SearchInput from "../../components/search-input";
 import List from "../../components/list";
@@ -8,10 +7,24 @@ import List from "../../components/list";
 import { SearchPanel } from "./home-page-styles";
 import Button from "../../components/button";
 import Pagination from "../../components/pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getEmployees } from "../../services";
 
 export default function Homepage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [employeesData, setEmployeesData] = useState([]);
+    const [needReload, setNeedReload] = useState([false])
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getEmployees().then(({ employees }) => {
+            setEmployeesData(employees);
+        });
+    }, [needReload]);
+
+    useEffect(() => {
+        setNeedReload(false);
+    }, [needReload])
 
     const buttonOptions = {
         text: 'Add',
@@ -20,22 +33,25 @@ export default function Homepage() {
     }
     const setActivePage = (namberOfPage) => setCurrentPage(namberOfPage);
 
-    const pages = Math.ceil(employeesList.length / 5);
+    const pages = Math.ceil(employeesData?.length / 5);
 
     const indexOfLastEmployee = currentPage * 5;
     const indexOfFirstEmployee = indexOfLastEmployee - 5;
-    const employeesPage = employeesList.slice(indexOfFirstEmployee, indexOfLastEmployee);
+    const employeesPage = employeesData?.slice(indexOfFirstEmployee, indexOfLastEmployee);
+
+    const doReload = () => setNeedReload(true);
 
     return (
         <>
             <SearchPanel>
                 <SearchInput />
                 <DropdownInput width='170px' />
-                <Link to={`add`}>
-                    <Button buttonOptions={buttonOptions} />
-                </Link>
+                <Button buttonOptions={buttonOptions} handler={() => navigate('add')} />
             </SearchPanel>
-            <List list={employeesPage} currentPage={currentPage} />
+            <List
+                list={employeesPage}
+                currentPage={currentPage}
+                reloader={doReload} />
             <Pagination
                 pages={pages}
                 setActivePage={setActivePage}

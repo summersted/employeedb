@@ -1,8 +1,10 @@
 import { CustomTextarea } from "./text-area-styles"
-export default function Textarea({handler}) {
-    return(
+export default function Textarea({ value ='', handler }) {
+    return (
         <>
-            <CustomTextarea onChange={handler}/>
+            <CustomTextarea
+                defaultValue={value}
+                onChange={handler} />
         </>
     )
 }

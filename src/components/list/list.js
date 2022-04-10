@@ -1,6 +1,6 @@
 import ListItem from "../list-item";
 import { TableElement, ThElement } from "./list-styles";
-export default function List({ list, currentPage }) {
+export default function List({ list, currentPage, reloader }) {
     return (
         <TableElement>
             <thead>
@@ -15,17 +15,18 @@ export default function List({ list, currentPage }) {
             <tbody>
                 {list ? (
                     list.map((item, i) => {
-                        const id = (currentPage*5)-4+i;
+                        const index = (currentPage * 5) - 4 + i;
                         return (
-                            <ListItem 
-                            listItem={item}
-                             id={id} 
-                             key={id} />
+                            <ListItem
+                                listItem={item}
+                                index={index}
+                                reloader={reloader}
+                                key={index} />
                         )
                     })
                 ) : (
                     // here should be loader component
-                    <p>Loading...</p>
+                    <tr><td><p>loading...</p></td></tr>
                 )}
             </tbody>
         </TableElement>

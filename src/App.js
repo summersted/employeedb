@@ -6,6 +6,8 @@ import EditEmployee from './pages/edit-employee/edit-employee';
 import Homepage from './pages/home-page';
 import PageNotFound from './pages/page-not-found';
 
+import './mirage/server';
+
 const AppWrapper = styled.div`
   width: 600px;
   margin: 0 auto;

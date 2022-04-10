@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import DropdownInput from "../../components/dropdown-input";
 import InputField from "../../components/input-field";
 import Textarea from "../../components/text-area";
 import Button from "../../components/button"
 import { ButtonGroup } from "../../components/button/button-styles";
+import { addEmployee } from "../../services";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEmployee() {
-    const [depart, setDepart] = useState('');
+    const [department, setDepart] = useState('');
     const [fullName, setFullName] = useState('');
     const [notes, setNotes] = useState('');
+    const navigate = useNavigate();
 
     const AddButtonOptions = {
         text: 'Add',
@@ -41,17 +44,20 @@ export default function AddEmployee() {
         setNotes(e.target.value);
     }
 
-    function submitClosure(depart, fullName, notes) {
+    function submitClosure(department, fullName, notes) {
         const obj = {
-            depart,
-            fullName,
+            department,
+            name: fullName,
             notes
         }
         return function () {
-            //do POST here
+            addEmployee(obj);
+            navigate('/');
         }
     }
-    const submitHandler = submitClosure(depart, fullName, notes);
+
+    const submitHandler = submitClosure(department, fullName, notes);
+    const cancelHandler = () => navigate('/');
 
     return (
         <>
@@ -67,7 +73,7 @@ export default function AddEmployee() {
             <Textarea handler={changeNotesHandler} />
             <ButtonGroup {...btnGroupOptions}>
                 <Button buttonOptions={AddButtonOptions} handler={submitHandler} />
-                <Button buttonOptions={CancelButtonOptions} />
+                <Button buttonOptions={CancelButtonOptions} handler={cancelHandler}/>
             </ButtonGroup>
         </>
     )

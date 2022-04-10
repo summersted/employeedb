@@ -1,4 +1,4 @@
-let employeesList = [
+const employeesInitList = [
     {
         name: 'Nayla Lacey',
         department: 'Development'
@@ -57,4 +57,4 @@ let employeesList = [
     }
 ];
 
-export default employeesList;
+export default employeesInitList;
