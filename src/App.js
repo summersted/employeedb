@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AddEmployee from './pages/add-employee';
@@ -12,7 +12,6 @@ import { AuthContext } from './auth/auth.context';
 import LoginPage from './pages/login/login';
 import AuthRequire from './auth/auth-require';
 import { makeServer } from './mirage/server';
-import { useEffect } from 'react';
 
 makeServer({ environment: "development" });
 
