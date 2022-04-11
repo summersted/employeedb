@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { TdElement } from "./list-item-styles";
-import { removeEmployee } from "../../services";
-export default function ListItem({ listItem, index, reloader }) {
-    const navigate = useNavigate();
-    const onDelete = () => {
-        removeEmployee(listItem?.id);
-        reloader();
+
+export default function ListItem({ listItem, index, modalOpenHandler, delTargetIdHanler}) {
+    const onDelete = (id) => {
+        delTargetIdHanler(id)
+        modalOpenHandler();
     }
+
     return (
         <tr key={index}>
             <TdElement>{index}</TdElement>
@@ -16,7 +16,7 @@ export default function ListItem({ listItem, index, reloader }) {
             <TdElement>
                 <a
                     href="#"
-                    onClick={onDelete}>Delete</a>
+                    onClick={() => onDelete(listItem?.id)}>Delete</a>
             </TdElement>
         </tr>
     )

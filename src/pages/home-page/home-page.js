@@ -9,24 +9,27 @@ import Button from "../../components/button";
 import Pagination from "../../components/pagination";
 import { useEffect, useState } from "react";
 import { filterEmployees, getEmployees } from "../../services";
+import Modal from "../../components/modal/modal";
 
 export default function Homepage() {
     const [employeesData, setEmployeesData] = useState([]);
-    const [filtredList, setFiltredList] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [needReload, setNeedReload] = useState([false]);
 
     const [searchQuery, setSearchQuery] = useState('');
     const [searchDepartment, setSearchDepartment] = useState('none');
+
+    const [isModalActive, setIsModalActive] = useState(false);
+    const [deleteTargetId, setDeleteTargetId] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
         getEmployees().then(({ employees }) => {
             setEmployeesData(employees);
-            setFiltredList(employees);
+            setSearchQuery('');
+            setSearchDepartment('none');
         })
-        console.log(filtredList);
     }, [needReload]);
 
     useEffect(() => {
@@ -34,16 +37,19 @@ export default function Homepage() {
     }, [needReload]);
 
     useEffect(() => {
-        filterEmployees(searchQuery).then(({ employees }) =>{
+        console.log(deleteTargetId);
+    }, [deleteTargetId]);
+    useEffect(() => {
+        filterEmployees(searchQuery).then(({ employees }) => {
             if (searchDepartment === 'none') {
-                setFiltredList(employees);
+                setEmployeesData(employees);
             } else {
-                setFiltredList(employees.filter((row) => (row.department === searchDepartment)))
+                setEmployeesData(employees.filter((row) => (row.department === searchDepartment)))
             }
         })
-            
+
     }, [searchQuery, searchDepartment]);
-    
+
     const buttonOptions = {
         text: 'Add',
         background_color: '#008cff',
@@ -52,15 +58,19 @@ export default function Homepage() {
 
     const setActivePage = (namberOfPage) => setCurrentPage(namberOfPage);
 
-    const pages = Math.ceil(filtredList?.length / 5);
+    const pages = Math.ceil(employeesData?.length / 5);
     const indexOfLastEmployee = currentPage * 5;
     const indexOfFirstEmployee = indexOfLastEmployee - 5;
-    const employeesPage = filtredList?.slice(indexOfFirstEmployee, indexOfLastEmployee);
+    const employeesPage = employeesData?.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
     const doReload = () => setNeedReload(true);
     const searchQuerryHandler = (value) => setSearchQuery(value);
     const searchDepartmentHandler = (e) => setSearchDepartment(e.target.value);
 
+    const deleteTargetIdHanler = (v) => setDeleteTargetId(v);
+
+    const modalCloseHandler = () => setIsModalActive(false);
+    const modalOpenHandler = () => setIsModalActive(true);
     return (
         <>
             <SearchPanel>
@@ -75,12 +85,18 @@ export default function Homepage() {
             <List
                 list={employeesPage}
                 currentPage={currentPage}
-                reloader={doReload} />
+                modalOpenHandler={modalOpenHandler} 
+                delTargetIdHanler={deleteTargetIdHanler}/>
             <Pagination
                 pages={pages}
                 setActivePage={setActivePage}
                 currentPage={currentPage}
             />
+            <Modal 
+            isActive={isModalActive} 
+            closeHandler={modalCloseHandler} 
+            reloader={doReload}
+            target={deleteTargetId}/>
         </>
     )
-}
+    }

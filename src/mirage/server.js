@@ -46,9 +46,8 @@ createServer({
 
         this.delete("/api/employees/:id", (schema, request) => {
             let id = request.params.id;
-            console.log(id);
+
             schema.employees.find(id).destroy();
-            // return schema.employees.findBy((raw) => raw.id == id).destroy();
         })
     }
 })

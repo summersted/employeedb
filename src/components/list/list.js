@@ -1,6 +1,12 @@
 import ListItem from "../list-item";
 import { TableElement, ThElement } from "./list-styles";
-export default function List({ list, currentPage, reloader }) {
+
+export default function List({
+    list,
+    currentPage,
+    modalOpenHandler,
+    delTargetIdHanler
+}) {
     return (
         <TableElement>
             <thead>
@@ -20,7 +26,8 @@ export default function List({ list, currentPage, reloader }) {
                             <ListItem
                                 listItem={item}
                                 index={index}
-                                reloader={reloader}
+                                modalOpenHandler={modalOpenHandler}
+                                delTargetIdHanler={delTargetIdHanler}
                                 key={index} />
                         )
                     })
