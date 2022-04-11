@@ -11,17 +11,22 @@ import { useEffect, useState } from "react";
 import { filterEmployees, getEmployees } from "../../services";
 
 export default function Homepage() {
-    const [currentPage, setCurrentPage] = useState(1);
     const [employeesData, setEmployeesData] = useState([]);
+    const [filtredList, setFiltredList] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
     const [needReload, setNeedReload] = useState([false]);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchDepartment, setSearchDepartment] = useState('');
+    const [searchDepartment, setSearchDepartment] = useState('none');
     const navigate = useNavigate();
 
     useEffect(() => {
-        getEmployees().then(({ employees }) =>
-            setEmployeesData(employees));
+        getEmployees().then(({ employees }) => {
+            setEmployeesData(employees);
+            setFiltredList(employees);
+        })
+        console.log(filtredList);
     }, [needReload]);
 
     useEffect(() => {
@@ -29,15 +34,16 @@ export default function Homepage() {
     }, [needReload]);
 
     useEffect(() => {
-        filterEmployees(searchQuery).then(({ employees }) =>
-            setEmployeesData(employees));
-    }, [searchQuery]);
-
-    useEffect(()=> {
-        console.log(searchDepartment);
-        setEmployeesData(employeesData.filter((row) => (row.department === searchDepartment)))
-    }, [searchDepartment]);
-
+        filterEmployees(searchQuery).then(({ employees }) =>{
+            if (searchDepartment === 'none') {
+                setFiltredList(employees);
+            } else {
+                setFiltredList(employees.filter((row) => (row.department === searchDepartment)))
+            }
+        })
+            
+    }, [searchQuery, searchDepartment]);
+    
     const buttonOptions = {
         text: 'Add',
         background_color: '#008cff',
@@ -46,10 +52,10 @@ export default function Homepage() {
 
     const setActivePage = (namberOfPage) => setCurrentPage(namberOfPage);
 
-    const pages = Math.ceil(employeesData?.length / 5);
+    const pages = Math.ceil(filtredList?.length / 5);
     const indexOfLastEmployee = currentPage * 5;
     const indexOfFirstEmployee = indexOfLastEmployee - 5;
-    const employeesPage = employeesData?.slice(indexOfFirstEmployee, indexOfLastEmployee);
+    const employeesPage = filtredList?.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
     const doReload = () => setNeedReload(true);
     const searchQuerryHandler = (value) => setSearchQuery(value);
