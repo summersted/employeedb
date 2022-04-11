@@ -6,7 +6,7 @@ let employeeData = employeesInitList;
 export function makeServer({environment}) {
     createServer({
         environment,
-        
+
         models: {
             employee: Model
         },
@@ -18,9 +18,6 @@ export function makeServer({environment}) {
             })
         },
         routes() {
-            this.passthrough();
-            this.passthrough('localhost:8080/**');
-    
             this.get("/api/employees", (schema) => {
                 return schema.employees.all();
             });
@@ -55,7 +52,12 @@ export function makeServer({environment}) {
     
                 schema.employees.find(id).destroy();
             });
-    
+
+            // this.post("http://localhost:8080/api/auth/login", (schema, request) => {
+            //     return {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"}
+            // });
+            
+            this.passthrough('https://localhost:8080/**');
             
         }
     })
