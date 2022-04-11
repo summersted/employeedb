@@ -54,7 +54,8 @@ export default function EditEmployee() {
             notes
         }
         return function () {
-            const filled = obj.department && obj.name && obj.notes
+            const filled = obj.department && obj.name && obj.notes;
+            
             if (filled) {
                 editEmployee(id, obj);
                 navigate('/');

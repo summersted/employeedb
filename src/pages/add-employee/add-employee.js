@@ -43,7 +43,8 @@ export default function AddEmployee() {
             notes
         }
         return function () {
-            const filled = obj.department && obj.name && obj.notes
+            const filled = obj.department && obj.name && obj.notes;
+            
             if (filled) {
                 addEmployee(obj);
                 navigate('/');

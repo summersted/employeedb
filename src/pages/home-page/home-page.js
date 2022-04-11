@@ -4,12 +4,13 @@ import DropdownInput from "../../components/dropdown-input";
 import SearchInput from "../../components/search-input";
 import List from "../../components/list";
 
-import { SearchPanel } from "./home-page-styles";
+import { LogoutDiv, SearchPanel } from "./home-page-styles";
 import Button from "../../components/button";
 import Pagination from "../../components/pagination";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { filterEmployees, getEmployees } from "../../services";
 import Modal from "../../components/modal/modal";
+import { AuthContext } from "../../auth/auth.context";
 
 export default function Homepage() {
     const [employeesData, setEmployeesData] = useState([]);
@@ -22,7 +23,9 @@ export default function Homepage() {
 
     const [isModalActive, setIsModalActive] = useState(false);
     const [deleteTargetId, setDeleteTargetId] = useState(0);
+
     const navigate = useNavigate();
+    const {logout} = useContext(AuthContext);
 
     useEffect(() => {
         getEmployees().then(({ employees }) => {
@@ -94,6 +97,7 @@ export default function Homepage() {
             closeHandler={modalCloseHandler} 
             reloader={doReload}
             target={deleteTargetId}/>
+            <LogoutDiv onClick={logout}></LogoutDiv>
         </>
     )
     }

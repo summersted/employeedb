@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const WrappedButton = styled.button`
+    margin-top: 5px;
     background-color: ${props => props.background_color || 'white'};
     color: ${props => props.text_color || 'black'};
     border: 1px solid grey;

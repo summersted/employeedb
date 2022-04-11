@@ -1,3 +1,5 @@
+const AUTH_DOMAIN = 'http://localhost:8080';
+
 export const getEmployees = async () => {
     try {
         const res = await fetch('/api/employees', {
@@ -64,6 +66,22 @@ export const filterEmployees = async (querry) => {
         const res = await fetch(`/api/filterEmployees`, {
             method: 'POST',
             body: JSON.stringify(querry)
+        })
+            .then(data => data.json());
+        return res;
+    } catch (error) {
+        console.warn(error)
+    }
+}
+
+export const login = async (auth) => {
+    try {
+        const res = await fetch(`${AUTH_DOMAIN}/api/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(auth)
         })
             .then(data => data.json());
         return res;
