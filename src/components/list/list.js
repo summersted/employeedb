@@ -13,7 +13,7 @@ export default function List({
                 <tr>
                     <ThElement width='20px'>#</ThElement>
                     <ThElement>Employee</ThElement>
-                    <ThElement>Department</ThElement>
+                    <ThElement width='150px'>Department</ThElement>
                     <ThElement width='60px'>Edit</ThElement>
                     <ThElement width='100px'>Delete</ThElement>
                 </tr>

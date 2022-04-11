@@ -37,9 +37,6 @@ export default function Homepage() {
     }, [needReload]);
 
     useEffect(() => {
-        console.log(deleteTargetId);
-    }, [deleteTargetId]);
-    useEffect(() => {
         filterEmployees(searchQuery).then(({ employees }) => {
             if (searchDepartment === 'none') {
                 setEmployeesData(employees);

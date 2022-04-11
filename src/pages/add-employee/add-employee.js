@@ -32,17 +32,9 @@ export default function AddEmployee() {
         justify: 'space-between'
     }
 
-    const changeNameHandler = (e) => {
-        setFullName(e.target.value);
-    }
-
-    const changeDepartHandler = (e) => {
-        setDepart(e.target.value);
-    }
-
-    const changeNotesHandler = (e) => {
-        setNotes(e.target.value);
-    }
+    const changeNameHandler = (e) => setFullName(e.target.value);
+    const changeDepartHandler = (e) => setDepart(e.target.value);
+    const changeNotesHandler = (e) => setNotes(e.target.value);
 
     function submitClosure(department, fullName, notes) {
         const obj = {
@@ -51,8 +43,13 @@ export default function AddEmployee() {
             notes
         }
         return function () {
-            addEmployee(obj);
-            navigate('/');
+            const filled = obj.department && obj.name && obj.notes
+            if (filled) {
+                addEmployee(obj);
+                navigate('/');
+            } else {
+                alert('Please, fill the form!')
+            }
         }
     }
 
@@ -73,7 +70,7 @@ export default function AddEmployee() {
             <Textarea handler={changeNotesHandler} />
             <ButtonGroup {...btnGroupOptions}>
                 <Button buttonOptions={AddButtonOptions} handler={submitHandler} />
-                <Button buttonOptions={CancelButtonOptions} handler={cancelHandler}/>
+                <Button buttonOptions={CancelButtonOptions} handler={cancelHandler} />
             </ButtonGroup>
         </>
     )

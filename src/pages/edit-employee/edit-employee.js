@@ -43,17 +43,9 @@ export default function EditEmployee() {
         justify: 'space-between'
     }
 
-    const changeNameHandler = (e) => {
-        setFullName(e.target.value);
-    }
-
-    const changeDepartHandler = (e) => {
-        setDepart(e.target.value);
-    }
-
-    const changeNotesHandler = (e) => {
-        setNotes(e.target.value);
-    }
+    const changeNameHandler = (e) => setFullName(e.target.value);
+    const changeDepartHandler = (e) => setDepart(e.target.value);
+    const changeNotesHandler = (e) => setNotes(e.target.value);
 
     function submitClosure(id, department, fullName, notes) {
         const obj = {
@@ -62,8 +54,13 @@ export default function EditEmployee() {
             notes
         }
         return function () {
-            editEmployee(id, obj);
-            navigate('/');
+            const filled = obj.department && obj.name && obj.notes
+            if (filled) {
+                editEmployee(id, obj);
+                navigate('/');
+            } else {
+                alert('Please, fill the form!')
+            }
         }
     }
     
