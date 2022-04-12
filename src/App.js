@@ -23,7 +23,8 @@ const AppWrapper = styled.div`
 
 function App() {
   const { login, logout, token } = useAuth();
-  const isAuthenticated = !!token;
+  // const isAuthenticated = !!token;
+  const isAuthenticated = true;
 
   return (
     <AuthContext.Provider value={{ login, logout, token, isAuthenticated }}>
@@ -34,8 +35,13 @@ function App() {
               <AuthRequire >
                 <Homepage />
               </AuthRequire>} />
-            <Route path='/add' element={<AddEmployee />} />
-            <Route path='/edit/:id' element={<EditEmployee />} />
+            <Route path='/add' element={
+              <AuthRequire >
+                <AddEmployee />
+              </AuthRequire>} />
+            <Route path='/edit/:id' element={<AuthRequire>
+              <EditEmployee />
+            </AuthRequire>} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
