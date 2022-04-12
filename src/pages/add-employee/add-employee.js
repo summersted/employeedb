@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import DropdownInput from "../../components/dropdown-input";
 import InputField from "../../components/input-field";
 import Textarea from "../../components/text-area";
@@ -7,11 +5,31 @@ import Button from "../../components/button"
 import { ButtonGroup } from "../../components/button/button-styles";
 import { addEmployee } from "../../services";
 import { useNavigate } from "react-router-dom";
+import useEmployee from "../../helpers/employee.hook";
+import { useEffect, useState } from "react";
 
 export default function AddEmployee() {
-    const [department, setDepart] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [notes, setNotes] = useState('');
+    const [formState, setFormState] = useState({});
+    const {
+        department,
+        fullName,
+        notes,
+        changeNameHandler,
+        changeDepartHandler,
+        changeNotesHandler
+    } = useEmployee(formState);
+
+    useEffect(() => {
+        setFormState({
+            department,
+            fullName,
+            notes,
+            changeNameHandler,
+            changeDepartHandler,
+            changeNotesHandler
+        })
+    }, []);
+
     const navigate = useNavigate();
 
     const AddButtonOptions = {
@@ -32,29 +50,21 @@ export default function AddEmployee() {
         justify: 'space-between'
     }
 
-    const changeNameHandler = (e) => setFullName(e.target.value);
-    const changeDepartHandler = (e) => setDepart(e.target.value);
-    const changeNotesHandler = (e) => setNotes(e.target.value);
+    function submitHandler() {
+        const filled = department && fullName && notes;
 
-    function submitClosure(department, fullName, notes) {
-        const obj = {
-            department,
-            name: fullName,
-            notes
-        }
-        return function () {
-            const filled = obj.department && obj.name && obj.notes;
-            
-            if (filled) {
-                addEmployee(obj);
-                navigate('/');
-            } else {
-                alert('Please, fill the form!')
-            }
+        if (filled) {
+            addEmployee({
+                department,
+                name: fullName,
+                notes
+            });
+            navigate('/');
+        } else {
+            alert('Please, fill the form!')
         }
     }
 
-    const submitHandler = submitClosure(department, fullName, notes);
     const cancelHandler = () => navigate('/');
 
     return (
@@ -68,10 +78,15 @@ export default function AddEmployee() {
                 width={'590px'}
                 handler={changeNameHandler} />
             <p>Notes:</p>
-            <Textarea handler={changeNotesHandler} />
+            <Textarea
+                handler={changeNotesHandler} />
             <ButtonGroup {...btnGroupOptions}>
-                <Button buttonOptions={AddButtonOptions} handler={submitHandler} />
-                <Button buttonOptions={CancelButtonOptions} handler={cancelHandler} />
+                <Button
+                    buttonOptions={AddButtonOptions}
+                    handler={submitHandler} />
+                <Button
+                    buttonOptions={CancelButtonOptions}
+                    handler={cancelHandler} />
             </ButtonGroup>
         </>
     )
