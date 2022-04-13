@@ -23,8 +23,7 @@ const AppWrapper = styled.div`
 
 function App() {
   const { login, logout, token } = useAuth();
-  // const isAuthenticated = !!token;
-  const isAuthenticated = true;
+  const isAuthenticated = !!token;
 
   return (
     <AuthContext.Provider value={{ login, logout, token, isAuthenticated }}>
